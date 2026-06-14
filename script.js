@@ -4,6 +4,15 @@ let ties = 0;
 
 const choices = ['rock', 'paper', 'scissors'];
 const emojiMap = { rock: '🪨', paper: '📄', scissors: '✂️' };
+
+let history = [];
+
+let memory = {
+  rock: { rock: 0, paper: 0, scissors: 0 },
+  paper: { rock: 0, paper: 0, scissors: 0 },
+  scissors: { rock: 0, paper: 0, scissors: 0 }
+};
+
 const winMessages = [
   "🎉 Nice! You got me this time!",
   "Whoa, didn't see that coming!",
@@ -11,7 +20,6 @@ const winMessages = [
   "Okay okay, you've got skills 👏",
   "Fine. FINE. You win this one."
 ];
-
 const loseMessages = [
   "😂 LOL so predictable",
   "Are you even trying to win?",
@@ -22,7 +30,6 @@ const loseMessages = [
   "Is that your final answer? 😏",
   "Too easy."
 ];
-
 const tieMessages = [
   "🤝 Great minds think alike",
   "Snap! Same wavelength",
@@ -41,25 +48,14 @@ function launchFireworks() {
     const particle = document.createElement('div');
     particle.className = 'firework-particle';
     particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
     const angle = Math.random() * 2 * Math.PI;
     const distance = 100 + Math.random() * 150;
     particle.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
     particle.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
-
     document.body.appendChild(particle);
     setTimeout(() => particle.remove(), 900);
   }
 }
-
-
-let history = [];
-
-let memory = {
-  rock: { rock: 0, paper: 0, scissors: 0 },
-  paper: { rock: 0, paper: 0, scissors: 0 },
-  scissors: { rock: 0, paper: 0, scissors: 0 }
-};
 
 function play(playerChoice) {
   const { aiMove, predicted, confident } = predictAndCounter();
@@ -86,14 +82,12 @@ function play(playerChoice) {
   resultEl.className = outcome;
   resultEl.textContent = getRandomMessage(outcome);
 
-  if (outcome === 'win') {
-    launchFireworks();
-  }
+  if (outcome === 'win') launchFireworks();
 
   const predictionEl = document.getElementById('prediction');
   if (confident) {
     predictionEl.textContent =
-      `🧠 AI guessed you'd play ${predicted} ${emojiMap[predicted]} → played ${aiMove} ${emojiMap[aiMove]} to counter`;
+      `🧠 AI guessed ${predicted} ${emojiMap[predicted]} → played ${aiMove} ${emojiMap[aiMove]}`;
   } else {
     predictionEl.textContent = `🧠 Not enough data yet — AI guessed randomly`;
   }

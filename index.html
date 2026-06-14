@@ -3,28 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>RPS AI - Can You Beat the Pattern?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Rock Paper Scissors vs AI</h1>
-  <p class="subtitle">The AI learns your patterns. Can you stay unpredictable?</p>
+  <header>
+    <h1>ROCK <span class="accent">PAPER</span> SCISSORS</h1>
+    <p class="subtitle">vs AI — it's learning your every move</p>
+  </header>
 
-  <div id="score">
-    <span class="stat win">Wins: <span id="winCount">0</span></span>
-    <span class="stat loss">Losses: <span id="lossCount">0</span></span>
-    <span class="stat tie">Ties: <span id="tieCount">0</span></span>
-  </div>
-
-  <div id="battle">
-    <div class="choice-box">
-      <div class="label">YOU</div>
-      <div id="playerEmoji" class="emoji">❓</div>
+  <div id="scoreboard">
+    <div class="team you">
+      <div class="team-label">YOU</div>
+      <div id="playerEmoji" class="emoji">🤔</div>
+      <div class="team-score" id="winCount">0</div>
     </div>
-    <div class="vs">VS</div>
-    <div class="choice-box">
-      <div class="label">AI</div>
-      <div id="aiEmoji" class="emoji">❓</div>
+
+    <div class="vs-divider">
+      <div class="vs-text">VS</div>
+      <div class="ties">Ties: <span id="tieCount">0</span></div>
+    </div>
+
+    <div class="team ai">
+      <div class="team-label">AI</div>
+      <div id="aiEmoji" class="emoji">🤖</div>
+      <div class="team-score" id="lossCount">0</div>
     </div>
   </div>
 
@@ -32,9 +37,12 @@
   <div id="prediction">🧠 AI is watching your moves...</div>
 
   <div id="buttons">
-    <button onclick="play('rock')">🪨 Rock</button>
-    <button onclick="play('paper')">📄 Paper</button>
-    <button onclick="play('scissors')">✂️ Scissors</button>
+    <button class="choice-btn" onclick="play('rock')" style="animation-delay: 0s">🪨</button>
+    <button class="choice-btn" onclick="play('paper')" style="animation-delay: 0.2s">📄</button>
+    <button class="choice-btn" onclick="play('scissors')" style="animation-delay: 0.4s">✂️</button>
+  </div>
+  <div id="buttonLabels">
+    <span>Rock</span><span>Paper</span><span>Scissors</span>
   </div>
 
   <div id="historyLabel">Last rounds:</div>
