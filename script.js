@@ -3,13 +3,10 @@ let losses = 0;
 let ties = 0;
 
 const choices = ['rock', 'paper', 'scissors'];
+const emojiMap = { rock: '🪨', paper: '📄', scissors: '✂️' };
 
-// Remembers every move you've ever made, in order
 let history = [];
 
-// "Memory": for each move, counts what you played NEXT
-// Example: memory.rock.scissors = 3 means
-// "3 times, after playing rock, you then played scissors"
 let memory = {
   rock: { rock: 0, paper: 0, scissors: 0 },
   paper: { rock: 0, paper: 0, scissors: 0 },
@@ -17,18 +14,15 @@ let memory = {
 };
 
 function play(playerChoice) {
-  const aiChoice = predictAndCounter();
+  const { aiMove, predicted, confident } = predictAndCounter();
 
-  // BEFORE storing this move, update memory using
-  // "what came after my last move"
   if (history.length > 0) {
     const lastMove = history[history.length - 1];
     memory[lastMove][playerChoice]++;
   }
-
   history.push(playerChoice);
 
-  const outcome = getOutcome(playerChoice, aiChoice);
+  const outcome = getOutcome(playerChoice, aiMove);
   if (outcome === 'win') wins++;
   else if (outcome === 'lose') losses++;
   else ties++;
@@ -37,33 +31,49 @@ function play(playerChoice) {
   document.getElementById('lossCount').textContent = losses;
   document.getElementById('tieCount').textContent = ties;
 
-  document.getElementById('result').textContent =
-    `You: ${playerChoice} | AI: ${aiChoice} → You ${outcome}!`;
+  document.getElementById('playerEmoji').textContent = emojiMap[playerChoice];
+  document.getElementById('aiEmoji').textContent = emojiMap[aiMove];
+
+  const resultEl = document.getElementById('result');
+  resultEl.className = outcome;
+  const resultText = {
+    win: '🎉 You win this round!',
+    lose: '😬 AI wins this round!',
+    tie: "🤝 It's a tie!"
+  };
+  resultEl.textContent = resultText[outcome];
+
+  const predictionEl = document.getElementById('prediction');
+  if (confident) {
+    predictionEl.textContent =
+      `🧠 AI guessed you'd play ${predicted} ${emojiMap[predicted]} → played ${aiMove} ${emojiMap[aiMove]} to counter`;
+  } else {
+    predictionEl.textContent = `🧠 Not enough data yet — AI guessed randomly`;
+  }
+
+  addHistoryItem(outcome);
 }
 
 function predictAndCounter() {
-  // First move ever — no data, just guess randomly
+  const counters = { rock: 'paper', paper: 'scissors', scissors: 'rock' };
+
   if (history.length === 0) {
-    return choices[Math.floor(Math.random() * 3)];
+    return { aiMove: choices[Math.floor(Math.random() * 3)], predicted: null, confident: false };
   }
 
   const lastMove = history[history.length - 1];
   const counts = memory[lastMove];
 
-  // Find which move you played most often after lastMove
   let predicted = 'rock';
   let maxCount = counts.rock;
   if (counts.paper > maxCount) { predicted = 'paper'; maxCount = counts.paper; }
   if (counts.scissors > maxCount) { predicted = 'scissors'; maxCount = counts.scissors; }
 
-  // No history for this case yet — guess randomly
   if (maxCount === 0) {
-    return choices[Math.floor(Math.random() * 3)];
+    return { aiMove: choices[Math.floor(Math.random() * 3)], predicted: null, confident: false };
   }
 
-  // Play the move that BEATS the predicted move
-  const counters = { rock: 'paper', paper: 'scissors', scissors: 'rock' };
-  return counters[predicted];
+  return { aiMove: counters[predicted], predicted: predicted, confident: true };
 }
 
 function getOutcome(player, ai) {
@@ -71,4 +81,13 @@ function getOutcome(player, ai) {
   const beats = { rock: 'scissors', paper: 'rock', scissors: 'paper' };
   if (beats[player] === ai) return 'win';
   return 'lose';
+}
+
+function addHistoryItem(outcome) {
+  const bar = document.getElementById('historyBar');
+  const item = document.createElement('div');
+  item.className = `history-item ${outcome}`;
+  item.textContent = { win: '✓', lose: '✗', tie: '–' }[outcome];
+  bar.appendChild(item);
+  if (bar.children.length > 15) bar.removeChild(bar.firstChild);
 }

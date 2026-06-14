@@ -8,13 +8,28 @@
 <body>
 
   <h1>Rock Paper Scissors vs AI</h1>
-  <p>The AI learns your patterns. Can you stay unpredictable?</p>
+  <p class="subtitle">The AI learns your patterns. Can you stay unpredictable?</p>
 
   <div id="score">
-    Wins: <span id="winCount">0</span> |
-    Losses: <span id="lossCount">0</span> |
-    Ties: <span id="tieCount">0</span>
+    <span class="stat win">Wins: <span id="winCount">0</span></span>
+    <span class="stat loss">Losses: <span id="lossCount">0</span></span>
+    <span class="stat tie">Ties: <span id="tieCount">0</span></span>
   </div>
+
+  <div id="battle">
+    <div class="choice-box">
+      <div class="label">YOU</div>
+      <div id="playerEmoji" class="emoji">❓</div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="choice-box">
+      <div class="label">AI</div>
+      <div id="aiEmoji" class="emoji">❓</div>
+    </div>
+  </div>
+
+  <div id="result">Make your move!</div>
+  <div id="prediction">🧠 AI is watching your moves...</div>
 
   <div id="buttons">
     <button onclick="play('rock')">🪨 Rock</button>
@@ -22,7 +37,8 @@
     <button onclick="play('scissors')">✂️ Scissors</button>
   </div>
 
-  <div id="result">Make your move!</div>
+  <div id="historyLabel">Last rounds:</div>
+  <div id="historyBar"></div>
 
   <script src="script.js"></script>
 </body>
