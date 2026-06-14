@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RPS AI - Can You Beat the Pattern?</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Rock Paper Scissors vs AI</h1>
+  <p>The AI learns your patterns. Can you stay unpredictable?</p>
+
+  <div id="score">
+    Wins: <span id="winCount">0</span> |
+    Losses: <span id="lossCount">0</span> |
+    Ties: <span id="tieCount">0</span>
+  </div>
+
+  <div id="buttons">
+    <button onclick="play('rock')">🪨 Rock</button>
+    <button onclick="play('paper')">📄 Paper</button>
+    <button onclick="play('scissors')">✂️ Scissors</button>
+  </div>
+
+  <div id="result">Make your move!</div>
+
+  <script src="script.js"></script>
+</body>
+</html>

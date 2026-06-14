@@ -1,0 +1,37 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #1e1e2f;
+  color: #ffffff;
+  padding: 40px;
+}
+
+h1 {
+  color: #00d9ff;
+}
+
+#score {
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+#buttons button {
+  font-size: 24px;
+  padding: 15px 25px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: #00d9ff;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+#buttons button:hover {
+  transform: scale(1.1);
+}
+
+#result {
+  font-size: 22px;
+  margin-top: 30px;
+  min-height: 40px;
+}
